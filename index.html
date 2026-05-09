@@ -3,69 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shree Samarth Talent Search Exam</title>
+    <title>Shree Samarth Exam Registration</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        .hall-ticket-card { width: 100%; max-width: 600px; border: 2px solid #333; min-height: 350px; }
-        .photo-box { width: 100px; height: 120px; background: #f8f9fa; border: 1px solid #ccc; display: flex; align-items: center; justify-content: center; font-size: 12px; }
-        .navbar { background-color: #1a237e !important; }
+        .hall-ticket { width: 100%; max-width: 800px; border: 3px double #000; padding: 20px; background: white; display: none; }
+        .stamp-area { height: 80px; width: 80px; border: 1px dashed #ccc; margin: auto; }
+        .photo-preview { width: 120px; height: 140px; border: 1px solid #000; object-fit: cover; }
     </style>
 </head>
-<body class="bg-light">
-    <nav class="navbar navbar-dark shadow mb-4">
-        <div class="container text-white">
-            <span class="navbar-brand mb-0 h1">Shree Samarth Talent Search Exam</span>
-        </div>
-    </nav>
-    <div class="container">
+<body class="bg-light p-3">
+
+<div class="container bg-white p-4 shadow-sm rounded" id="formContainer">
+    <h2 class="text-center text-primary mb-4">Shree Samarth Talent Search Exam Form</h2>
+    <form id="regForm">
         <div class="row">
-            <div class="col-md-5 mb-4">
-                <div class="card shadow-sm p-4">
-                    <h4 class="mb-3">Student Form</h4>
-                    <form id="examForm">
-                        <div class="mb-2"><label>Student Name</label><input type="text" id="studentName" class="form-control" required></div>
-                        <div class="mb-2"><label>Standard</label><input type="text" id="studentClass" class="form-control" required></div>
-                        <div class="mb-2"><label>Exam Center</label><input type="text" id="centerName" class="form-control" required></div>
-                        <div class="mb-2"><label>Exam Date</label><input type="date" id="examDate" class="form-control" required></div>
-                        <button type="submit" class="btn btn-primary w-100 mt-3">Create Hall Ticket</button>
-                    </form>
-                </div>
+            <div class="col-md-6 mb-3"><label>Student Full Name</label><input type="text" id="name" class="form-control" required></div>
+            <div class="col-md-6 mb-3"><label>Date of Birth</label><input type="date" id="dob" class="form-control" required></div>
+            <div class="col-md-4 mb-3"><label>Standard</label><input type="text" id="standard" class="form-control" required></div>
+            <div class="col-md-4 mb-3"><label>School Name</label><input type="text" id="school" class="form-control" required></div>
+            <div class="col-md-4 mb-3"><label>Mobile Number</label><input type="tel" id="mobile" class="form-control" required></div>
+            <div class="col-md-6 mb-3">
+                <label>Exam Center</label>
+                <select id="center" class="form-select" required>
+                    <option value="">Select Center</option>
+                    <option value="Samarth High School">Samarth High School</option>
+                    <option value="Z.P. School Main">Z.P. School Main</option>
+                </select>
             </div>
-            <div class="col-md-7">
-                <div id="hallTicket" class="bg-white p-4 shadow mx-auto" style="display:none; border: 2px solid #000;">
-                    <div class="text-center border-bottom mb-3">
-                        <h3>Shree Samarth Talent Search Exam</h3>
-                        <p>Official Hall Ticket</p>
-                    </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <p><strong>Name:</strong> <span id="outName"></span></p>
-                            <p><strong>Class:</strong> <span id="outClass"></span></p>
-                            <p><strong>Center:</strong> <span id="outCenter"></span></p>
-                            <p><strong>Date:</strong> <span id="outDate"></span></p>
-                        </div>
-                        <div class="col-4"><div class="photo-box">Photo</div></div>
-                    </div>
-                </div>
-                <button id="downloadBtn" onclick="downloadPDF()" class="btn btn-success w-100 mt-3" style="display:none;">Download PDF</button>
+            <div class="col-md-6 mb-3"><label>Upload Photo</label><input type="file" id="photoInput" class="form-control" accept="image/*" required></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg w-100">Submit and Generate Hall Ticket</button>
+    </form>
+</div>
+
+<!-- Hall Ticket Area -->
+<div id="ticketContainer" class="mt-5">
+    <div id="hallTicket" class="hall-ticket mx-auto">
+        <div class="text-center border-bottom mb-3">
+            <h3>Shree Samarth Talent Search Exam</h3>
+            <h5>HALL TICKET (2026)</h5>
+        </div>
+        <div class="row mt-3">
+            <div class="col-8">
+                <p><strong>Student Name:</strong> <span id="tName"></span></p>
+                <p><strong>DOB:</strong> <span id="tDob"></span> | <strong>Standard:</strong> <span id="tStd"></span></p>
+                <p><strong>School:</strong> <span id="tSchool"></span></p>
+                <p><strong>Center:</strong> <span id="tCenter"></span></p>
+                <p><strong>Exam Time:</strong> 11:00 AM to 01:00 PM</p>
             </div>
+            <div class="col-4 text-center">
+                <img id="tPhoto" class="photo-preview mb-2" src="">
+            </div>
+        </div>
+        <div class="mt-4">
+            <h6>Instructions:</h6>
+            <ul style="font-size: 12px;">
+                <li>Carry your own pen and writing pad.</li>
+                <li>Reach the center 30 minutes before time.</li>
+                <li>Mobile phones are not allowed.</li>
+            </ul>
+        </div>
+        <div class="row mt-5 text-center">
+            <div class="col-4"><p class="border-top pt-2">Student Sign</p></div>
+            <div class="col-4"><div class="stamp-area"></div><p>School Shikka (Stamp)</p></div>
+            <div class="col-4"><p class="border-top pt-2">Principal Sign</p></div>
         </div>
     </div>
-    <script>
-        document.getElementById('examForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            document.getElementById('outName').innerText = document.getElementById('studentName').value;
-            document.getElementById('outClass').innerText = document.getElementById('studentClass').value;
-            document.getElementById('outCenter').innerText = document.getElementById('centerName').value;
-            document.getElementById('outDate').innerText = document.getElementById('examDate').value;
+    <button id="dlBtn" class="btn btn-success w-100 mt-3" style="display:none;" onclick="downloadPDF()">Download Hall Ticket (PDF)</button>
+</div>
+
+<script>
+    const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL'; // PASTE YOUR URL HERE
+
+    document.getElementById('regForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const photoFile = document.getElementById('photoInput').files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+            const photoBase64 = event.target.result;
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                dob: document.getElementById('dob').value,
+                standard: document.getElementById('standard').value,
+                school: document.getElementById('school').value,
+                mobile: document.getElementById('mobile').value,
+                center: document.getElementById('center').value,
+                photo: photoBase64
+            };
+
+            // Send to Google Sheet
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(formData)
+            }).then(() => console.log("Data Sent"));
+
+            // Fill Hall Ticket
+            document.getElementById('tName').innerText = formData.name;
+            document.getElementById('tDob').innerText = formData.dob;
+            document.getElementById('tStd').innerText = formData.standard;
+            document.getElementById('tSchool').innerText = formData.school;
+            document.getElementById('tCenter').innerText = formData.center;
+            document.getElementById('tPhoto').src = photoBase64;
+
+            // Show Ticket
+            document.getElementById('formContainer').style.display = 'none';
             document.getElementById('hallTicket').style.display = 'block';
-            document.getElementById('downloadBtn').style.display = 'block';
-        });
-        function downloadPDF() {
-            const element = document.getElementById('hallTicket');
-            html2pdf().from(element).save('Hall_Ticket.pdf');
-        }
-    </script>
+            document.getElementById('dlBtn').style.display = 'block';
+        };
+        reader.readAsDataURL(photoFile);
+    });
+
+    function downloadPDF() {
+        const element = document.getElementById('hallTicket');
+        html2pdf().from(element).set({margin: 10, filename: 'HallTicket.pdf'}).save();
+    }
+</script>
 </body>
 </html>
