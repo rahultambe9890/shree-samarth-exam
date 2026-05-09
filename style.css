@@ -1,1 +1,24 @@
-style.css
+.hall-ticket-card {
+    width: 100%;
+    max-width: 600px;
+    border: 2px solid #333;
+    min-height: 350px;
+    position: relative;
+}
+
+.photo-box {
+    width: 100px;
+    height: 120px;
+    background: #f8f9fa;
+    font-size: 12px;
+    color: #999;
+}
+
+.navbar {
+    background-color: #1a237e !important; /* Deep Blue professional look */
+}
+
+.btn-primary {
+    background-color: #1a237e;
+    border: none;
+}
