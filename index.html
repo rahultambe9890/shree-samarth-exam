@@ -4,92 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shree Samarth Talent Search Exam</title>
-    <!-- Bootstrap CSS for modern design -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <!-- PDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        .hall-ticket-card { width: 100%; max-width: 600px; border: 2px solid #333; min-height: 350px; }
+        .photo-box { width: 100px; height: 120px; background: #f8f9fa; border: 1px solid #ccc; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        .navbar { background-color: #1a237e !important; }
+    </style>
 </head>
 <body class="bg-light">
-
-<nav class="navbar navbar-dark bg-primary shadow">
+    <nav class="navbar navbar-dark shadow mb-4">
+        <div class="container text-white">
+            <span class="navbar-brand mb-0 h1">Shree Samarth Talent Search Exam</span>
+        </div>
+    </nav>
     <div class="container">
-        <span class="navbar-brand mb-0 h1">Shree Samarth Talent Search</span>
-    </div>
-</nav>
-
-<div class="container my-5">
-    <div class="row">
-        <!-- Form Section -->
-        <div class="col-md-5">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h4 class="card-title mb-4">Registration Form</h4>
+        <div class="row">
+            <div class="col-md-5 mb-4">
+                <div class="card shadow-sm p-4">
+                    <h4 class="mb-3">Student Form</h4>
                     <form id="examForm">
-                        <div class="mb-3">
-                            <label class="form-label">Student Full Name</label>
-                            <input type="text" id="studentName" class="form-control" placeholder="Enter Name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Standard/Class</label>
-                            <select id="studentClass" class="form-select">
-                                <option value="1st">1st Standard</option>
-                                <option value="2nd">2nd Standard</option>
-                                <option value="3rd">3rd Standard</option>
-                                <option value="4th">4th Standard</option>
-                                <option value="5th">5th Standard</option>
-                                <option value="6th">6th Standard</option>
-                                <option value="7th">7th Standard</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Exam Center</label>
-                            <input type="text" id="centerName" class="form-control" placeholder="e.g. Main Hall" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Exam Date</label>
-                            <input type="date" id="examDate" class="form-control" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Generate Hall Ticket</button>
+                        <div class="mb-2"><label>Student Name</label><input type="text" id="studentName" class="form-control" required></div>
+                        <div class="mb-2"><label>Standard</label><input type="text" id="studentClass" class="form-control" required></div>
+                        <div class="mb-2"><label>Exam Center</label><input type="text" id="centerName" class="form-control" required></div>
+                        <div class="mb-2"><label>Exam Date</label><input type="date" id="examDate" class="form-control" required></div>
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Create Hall Ticket</button>
                     </form>
                 </div>
             </div>
-        </div>
-
-        <!-- Preview Section -->
-        <div class="col-md-7">
-            <div id="hallTicketWrapper">
-                <div id="hallTicket" class="hall-ticket-card p-4 bg-white shadow-sm mx-auto" style="display: none;">
-                    <div class="text-center border-bottom pb-3 mb-3">
+            <div class="col-md-7">
+                <div id="hallTicket" class="bg-white p-4 shadow mx-auto" style="display:none; border: 2px solid #000;">
+                    <div class="text-center border-bottom mb-3">
                         <h3>Shree Samarth Talent Search Exam</h3>
-                        <p class="text-muted mb-0">Official Student Hall Ticket</p>
+                        <p>Official Hall Ticket</p>
                     </div>
                     <div class="row">
                         <div class="col-8">
-                            <p><strong>Roll No:</strong> <span id="outRoll">SSTE-2026-101</span></p>
                             <p><strong>Name:</strong> <span id="outName"></span></p>
                             <p><strong>Class:</strong> <span id="outClass"></span></p>
-                            <p><strong>Exam Center:</strong> <span id="outCenter"></span></p>
-                            <p><strong>Date & Time:</strong> <span id="outDate"></span> | 10:00 AM</p>
+                            <p><strong>Center:</strong> <span id="outCenter"></span></p>
+                            <p><strong>Date:</strong> <span id="outDate"></span></p>
                         </div>
-                        <div class="col-4 text-center">
-                            <div class="photo-box border d-flex align-items-center justify-content-center">
-                                Photo
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4 pt-3 border-top">
-                        <small>Note: Please carry a valid ID proof and arrive 30 minutes early.</small>
+                        <div class="col-4"><div class="photo-box">Photo</div></div>
                     </div>
                 </div>
-            </div>
-            <div id="actionButtons" class="mt-3 text-center" style="display: none;">
-                <button onclick="downloadPDF()" class="btn btn-success">Download as PDF</button>
+                <button id="downloadBtn" onclick="downloadPDF()" class="btn btn-success w-100 mt-3" style="display:none;">Download PDF</button>
             </div>
         </div>
     </div>
-</div>
-
-<script src="script.js"></script>
+    <script>
+        document.getElementById('examForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('outName').innerText = document.getElementById('studentName').value;
+            document.getElementById('outClass').innerText = document.getElementById('studentClass').value;
+            document.getElementById('outCenter').innerText = document.getElementById('centerName').value;
+            document.getElementById('outDate').innerText = document.getElementById('examDate').value;
+            document.getElementById('hallTicket').style.display = 'block';
+            document.getElementById('downloadBtn').style.display = 'block';
+        });
+        function downloadPDF() {
+            const element = document.getElementById('hallTicket');
+            html2pdf().from(element).save('Hall_Ticket.pdf');
+        }
+    </script>
 </body>
 </html>
