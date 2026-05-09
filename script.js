@@ -20,14 +20,21 @@ document.getElementById('examForm').addEventListener('submit', function(e) {
 
 function downloadPDF() {
     const element = document.getElementById('hallTicket');
+    
+    // This configuration forces the ticket to fit perfectly on a PDF page
     const opt = {
-        margin:       10,
-        filename:     'Hall_Ticket_Shree_Samarth.pdf',
+        margin:       [10, 10, 10, 10], // top, left, bottom, right margins
+        filename:     'Shree_Samarth_HallTicket.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
+        html2canvas:  { 
+            scale: 2, 
+            useCORS: true, 
+            letterRendering: true,
+            width: 800 // This ensures it captures the full width
+        },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
-    // New Promise-based usage:
+    // This "Promise" ensures the image is fully loaded before saving
     html2pdf().set(opt).from(element).save();
 }
