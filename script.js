@@ -21,25 +21,28 @@ document.getElementById('examForm').addEventListener('submit', function(e) {
 function downloadPDF() {
     const element = document.getElementById('hallTicket');
     
-    // Get student name and seat no for a custom filename
-    const fileName = currentStudentName.replace(/\s+/g, '_') + "_" + currentSeatNo + ".pdf";
-
+    // Custom filename: StudentName_SeatNo.pdf
+    const fileName = studentNameForFile.replace(/\s+/g, '_') + "_" + seatNoForFile + ".pdf";
+    
     const opt = {
         margin: 0,
         filename: fileName,
         image: { type: 'jpeg', quality: 1 },
         html2canvas: { 
-            scale: 2,         // Increases clarity
-            width: 794,       // FORCES the width to A4 size
-            useCORS: true, 
-            logging: false 
+            scale: 2,           // Higher scale means better quality
+            width: 794,         // Forces the width to A4 pixels
+            useCORS: true,
+            letterRendering: true
         },
         jsPDF: { 
             unit: 'px', 
-            format: [794, 1123], // Matches the width/height exactly
+            format: [794, 1123], // Exact pixels for A4
             orientation: 'portrait' 
         }
     };
 
+    // New Promise-based usage to ensure full capture
+    html2pdf().set(opt).from(element).save();
+}
     html2pdf().set(opt).from(element).save();
 }
