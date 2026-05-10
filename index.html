@@ -7,93 +7,86 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        /* Professional Styling */
+        /* Professional Hall Ticket Styling */
         #hallTicket {
-            width: 760px; /* Standard A4 inner width */
+            width: 780px;
             padding: 30px;
             background: white;
-            border: 4px double #000;
+            border: 5px double #000;
             display: none;
             color: black;
             margin: 0 auto;
             font-family: 'Arial', sans-serif;
         }
-        .ticket-header { border-bottom: 2px solid #000; margin-bottom: 20px; padding-bottom: 10px; }
-        .seat-no-box { border: 2px solid #000; padding: 8px 15px; font-size: 22px; font-weight: bold; display: inline-block; background: #f0f0f0; }
-        .photo-box { width: 130px; height: 160px; border: 2px solid #000; object-fit: cover; }
-        .info-label { font-weight: bold; width: 140px; display: inline-block; }
-        .exam-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .exam-table th, .exam-table td { border: 1px solid black; padding: 10px; text-align: center; font-size: 14px; }
-        .exam-table th { background-color: #f2f2f2; }
-        .instruction-section { font-size: 11px; margin-top: 20px; border-top: 1px solid #ccc; pt-2; }
-        .footer-sign { margin-top: 40px; }
-        .stamp-box { height: 80px; width: 120px; border: 1px dashed #666; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #666; }
+        .header-section { border-bottom: 2px solid #000; margin-bottom: 20px; padding-bottom: 10px; }
+        .seat-no-display { border: 2px solid #000; padding: 10px 20px; font-size: 24px; font-weight: bold; background: #f8f9fa; display: inline-block; }
+        .photo-box { width: 140px; height: 170px; border: 2px solid #000; object-fit: cover; }
+        .info-row { margin-bottom: 8px; font-size: 16px; }
+        .info-label { font-weight: bold; width: 150px; display: inline-block; }
+        .exam-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .exam-table th, .exam-table td { border: 1px solid black; padding: 12px; text-align: center; }
+        .exam-table th { background-color: #eee; }
+        .instructions { font-size: 11.5px; margin-top: 20px; line-height: 1.4; border-top: 1px solid #000; padding-top: 10px; }
+        .sign-box { margin-top: 50px; }
+        .stamp-placeholder { width: 100px; height: 100px; border: 1px dashed #999; margin: 0 auto; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999; }
         
-        /* Fixed PDF Download settings */
-        @media print {
-            body { background: white !important; }
-            #hallTicket { display: block !important; border: none; }
-            .no-print { display: none !important; }
-        }
+        @media print { .no-print { display: none !important; } }
     </style>
 </head>
-<body class="bg-dark p-2 p-md-5">
+<body class="bg-secondary p-2 p-md-4">
 
 <div class="container bg-white p-4 shadow rounded no-print" id="formContainer" style="max-width: 800px;">
-    <h2 class="text-center text-primary mb-4 font-weight-bold">Exam Registration Form</h2>
+    <h2 class="text-center text-primary mb-4 fw-bold">Exam Registration Form</h2>
     <form id="regForm">
         <div class="row g-3">
-            <div class="col-md-12 mb-2"><label class="form-label fw-bold">Student Full Name</label><input type="text" id="name" class="form-control" placeholder="Full Name" required></div>
-            <div class="col-md-6"><label class="form-label fw-bold">Date of Birth</label><input type="date" id="dob" class="form-control" required></div>
-            <div class="col-md-6"><label class="form-label fw-bold">Standard</label><input type="text" id="standard" class="form-control" placeholder="e.g. 5th" required></div>
-            <div class="col-md-6"><label class="form-label fw-bold">School Name</label><input type="text" id="school" class="form-control" required></div>
-            <div class="col-md-6"><label class="form-label fw-bold">Mobile Number</label><input type="tel" id="mobile" class="form-control" maxlength="10" required></div>
-            <div class="col-md-12"><label class="form-label fw-bold">Exam Center</label>
+            <div class="col-md-6"><label class="fw-bold">Student Full Name</label><input type="text" id="name" class="form-control" required></div>
+            <div class="col-md-6"><label class="fw-bold">Date of Birth</label><input type="date" id="dob" class="form-control" required></div>
+            <div class="col-md-4"><label class="fw-bold">Standard</label><input type="text" id="standard" class="form-control" required></div>
+            <div class="col-md-4"><label class="fw-bold">School Name</label><input type="text" id="school" class="form-control" required></div>
+            <div class="col-md-4"><label class="fw-bold">Mobile Number</label><input type="tel" id="mobile" class="form-control" maxlength="10" required></div>
+            <div class="col-md-12"><label class="fw-bold">Exam Center</label>
                 <select id="center" class="form-select" required>
-                    <option value="">-- Select Center --</option>
-                    <option value="Shree Samarth Academy, Campus 1">Shree Samarth Academy, Campus 1</option>
-                    <option value="Model School, Center B">Model School, Center B</option>
+                    <option value="">-- Select Exam Center --</option>
+                    <option value="Shree Samarth High School, Main Hall">Shree Samarth High School, Main Hall</option>
+                    <option value="Vidya Mandir, Center No. 2">Vidya Mandir, Center No. 2</option>
                 </select>
             </div>
-            <div class="col-md-12"><label class="form-label fw-bold">Student Photo</label><input type="file" id="photoInput" class="form-control" accept="image/*" required></div>
+            <div class="col-md-12"><label class="fw-bold">Student Photo</label><input type="file" id="photoInput" class="form-control" accept="image/*" required></div>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg w-100 mt-4 shadow">Submit & Generate Hall Ticket</button>
+        <button type="submit" class="btn btn-primary btn-lg w-100 mt-4">Submit & Generate Hall Ticket</button>
     </form>
 </div>
 
-<div id="ticketWrapper">
+<div id="ticketWrapper" class="mt-2">
     <div id="hallTicket">
-        <div class="ticket-header text-center">
-            <h2 class="m-0 fw-bold" style="color: #1a237e;">SHREE SAMARTH TALENT SEARCH EXAM</h2>
-            <p class="m-0 fw-bold">Maharashtra State Level Scholarship Entrance</p>
-            <p class="m-0">Hall Ticket: 2026-2027</p>
+        <div class="header-section text-center">
+            <h2 class="m-0 fw-bold">SHREE SAMARTH TALENT SEARCH EXAM</h2>
+            <p class="m-0 fw-bold text-uppercase">Organized by: Shree Samarth Education Foundation</p>
+            <p class="m-0">Official Hall Ticket - 2026</p>
         </div>
 
-        <div class="row mb-3">
+        <div class="row">
             <div class="col-8">
-                <div class="seat-no-box mb-3">SEAT NO: <span id="tSeat"></span></div>
-                <div class="student-info">
-                    <p class="mb-1"><span class="info-label">Student Name:</span> <span id="tName" class="fw-bold" style="text-transform: uppercase;"></span></p>
-                    <p class="mb-1"><span class="info-label">Date of Birth:</span> <span id="tDob"></span></p>
-                    <p class="mb-1"><span class="info-label">Standard:</span> <span id="tStd"></span></p>
-                    <p class="mb-1"><span class="info-label">School:</span> <span id="tSchool"></span></p>
-                    <p class="mb-1"><span class="info-label">Exam Center:</span> <span id="tCenter" class="fw-bold text-primary"></span></p>
-                </div>
+                <div class="seat-no-display mb-3">SEAT NO: <span id="tSeat"></span></div>
+                <div class="info-row"><span class="info-label">Candidate Name:</span> <span id="tName" class="fw-bold text-uppercase"></span></div>
+                <div class="info-row"><span class="info-label">Date of Birth:</span> <span id="tDob"></span></div>
+                <div class="info-row"><span class="info-label">Standard:</span> <span id="tStd"></span></div>
+                <div class="info-row"><span class="info-label">School Name:</span> <span id="tSchool"></span></div>
+                <div class="info-row"><span class="info-label">Exam Center:</span> <span id="tCenter" class="fw-bold"></span></div>
             </div>
             <div class="col-4 text-center">
                 <img id="tPhoto" class="photo-box" src="">
-                <p class="small mt-1">(Photo)</p>
+                <p class="small mt-1">(Student Photo)</p>
             </div>
         </div>
 
-        <h6 class="fw-bold text-center bg-light p-1 border">EXAMINATION TIME TABLE</h6>
         <table class="exam-table">
             <thead>
                 <tr>
                     <th>Paper</th>
                     <th>Subjects</th>
-                    <th>Time</th>
-                    <th>Total Marks</th>
+                    <th>Timing</th>
+                    <th>Marks</th>
                 </tr>
             </thead>
             <tbody>
@@ -112,25 +105,25 @@
             </tbody>
         </table>
 
-        <div class="instruction-section">
-            <p class="fw-bold mb-1">IMPORTANT INSTRUCTIONS:</p>
-            <ul class="m-0 px-3">
-                <li>Bring this hall ticket to the exam center. (हॉल तिकीट सोबत आणणे अनिवार्य आहे.)</li>
-                <li>Reach the center 30 mins before. (किमान ३० मिनिटे आधी उपस्थित राहावे.)</li>
-                <li>No mobiles/calculators allowed. (मोबाईल किंवा इलेक्ट्रॉनिक साधनांना परवानगी नाही.)</li>
+        <div class="instructions">
+            <h6 class="fw-bold mb-1">INSTRUCTIONS / सूचना:</h6>
+            <ul class="m-0 ps-3">
+                <li>Bring this hall ticket to the center. (परीक्षा केंद्रावर हॉल तिकीट सोबत आणणे अनिवार्य आहे.)</li>
+                <li>Reach center 30 mins before. (किमान ३० मिनिटे आधी उपस्थित राहावे.)</li>
+                <li>No electronic gadgets allowed. (इलेक्ट्रॉनिक साधनांना परवानगी नाही.)</li>
                 <li>Use Blue/Black ball pen only. (फक्त निळा किंवा काळा बॉलपेन वापरावा.)</li>
             </ul>
         </div>
 
-        <div class="row footer-sign text-center">
-            <div class="col-4"><p class="border-top pt-2 small fw-bold">Student Signature</p></div>
-            <div class="col-4"><div class="stamp-box">SCHOOL STAMP</div></div>
-            <div class="col-4"><p class="border-top pt-2 small fw-bold">Principal Signature</p></div>
+        <div class="row sign-box text-center">
+            <div class="col-4"><p class="border-top pt-2 fw-bold">Student Sign</p></div>
+            <div class="col-4"><div class="stamp-placeholder">SCHOOL STAMP</div></div>
+            <div class="col-4"><p class="border-top pt-2 fw-bold">Principal Sign</p></div>
         </div>
     </div>
 
     <div class="text-center mt-4 no-print">
-        <button id="dlBtn" class="btn btn-success btn-lg px-5 shadow mb-5" style="display:none;" onclick="downloadPDF()">Download Full Hall Ticket (PDF)</button>
+        <button id="dlBtn" class="btn btn-success btn-lg px-5 shadow mb-5" style="display:none;" onclick="downloadPDF()">Download Final Hall Ticket (PDF)</button>
     </div>
 </div>
 
@@ -144,7 +137,9 @@
 
         reader.onload = function(event) {
             const photoBase64 = event.target.result;
-            const seatNo = "SST-" + (Math.floor(Math.random() * 9000) + 1000);
+            
+            // Auto-generate Seat Number
+            const seatNo = "SST-2026-" + Math.floor(1000 + Math.random() * 9000);
 
             const formData = {
                 seatNo: seatNo,
@@ -157,13 +152,13 @@
                 photo: photoBase64
             };
 
-            // Send to Google Sheet (Optional - if URL provided)
-            if(SCRIPT_URL !== 'YOUR_GOOGLE_SCRIPT_URL'){
+            // Send to Google Sheet
+            if(SCRIPT_URL !== 'YOUR_GOOGLE_SCRIPT_URL') {
                 fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
             }
 
-            // Fill Ticket Data
-            document.getElementById('tSeat').innerText = formData.seatNo;
+            // Fill Ticket
+            document.getElementById('tSeat').innerText = seatNo;
             document.getElementById('tName').innerText = formData.name;
             document.getElementById('tDob').innerText = formData.dob;
             document.getElementById('tStd').innerText = formData.standard;
@@ -171,7 +166,7 @@
             document.getElementById('tCenter').innerText = formData.center;
             document.getElementById('tPhoto').src = photoBase64;
 
-            // Switch Views
+            // UI Switch
             document.getElementById('formContainer').style.display = 'none';
             document.getElementById('hallTicket').style.display = 'block';
             document.getElementById('dlBtn').style.display = 'block';
@@ -183,10 +178,10 @@
     function downloadPDF() {
         const element = document.getElementById('hallTicket');
         const opt = {
-            margin: 5,
-            filename: 'Shree_Samarth_Exam_2026.pdf',
+            margin: 10,
+            filename: 'Shree_Samarth_Hall_Ticket.pdf',
             image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 3, useCORS: true, width: 760 },
+            html2canvas: { scale: 3, width: 780, useCORS: true },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
         html2pdf().set(opt).from(element).save();
