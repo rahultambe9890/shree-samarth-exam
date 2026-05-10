@@ -5,6 +5,15 @@
     min-height: 350px;
     position: relative;
 }
+#hallTicket {
+    width: 794px;      /* Standard A4 width in pixels */
+    min-height: 1123px; /* Standard A4 height */
+    padding: 40px;
+    background: white;
+    margin: 0 auto;
+    overflow: hidden;   /* Prevents content from leaking out */
+    display: none;      /* Stays hidden until form is filled */
+}
 
 .photo-box {
     width: 100px;
