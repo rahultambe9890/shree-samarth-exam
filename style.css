@@ -6,13 +6,14 @@
     position: relative;
 }
 #hallTicket {
-    width: 794px;      /* Standard A4 width in pixels */
-    min-height: 1123px; /* Standard A4 height */
-    padding: 40px;
+    width: 794px;        /* Standard A4 Width */
+    min-height: 1123px;  /* Standard A4 Height */
+    padding: 50px;
     background: white;
     margin: 0 auto;
-    overflow: hidden;   /* Prevents content from leaking out */
-    display: none;      /* Stays hidden until form is filled */
+    display: none;       /* Stays hidden until form is filled */
+    box-sizing: border-box; 
+    position: relative;
 }
 
 .photo-box {
